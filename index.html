@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Atlas Watch global political risk and situation monitoring dashboard.">
+  <title>Atlas Watch | Global Situation Monitor</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="grain" aria-hidden="true"></div>
+  <div class="app-shell">
+    <header class="topbar">
+      <a class="brand" href="#" aria-label="Atlas Watch home">
+        <span class="brand-mark" aria-hidden="true">
+          <span></span><span></span><span></span>
+        </span>
+        <span class="brand-copy">
+          <strong>ATLAS/WATCH</strong>
+          <small>GLOBAL SITUATION MONITOR</small>
+        </span>
+      </a>
+
+      <div class="status-line" aria-label="System status">
+        <span class="live-pulse"></span>
+        <span>MONITORING</span>
+        <span class="status-divider"></span>
+        <span id="utcClock">00:00:00 UTC</span>
+      </div>
+
+      <div class="top-actions">
+        <button class="icon-button" id="searchToggle" type="button" aria-label="Search dashboard" title="Search">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"></circle><path d="m16.5 16.5 4 4"></path></svg>
+        </button>
+        <button class="icon-button notification-button" id="notificationButton" type="button" aria-label="Open alerts" title="Alerts">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M18 8a6 6 0 0 0-12 0c0 7-3 7-3 9h18c0-2-3-2-3-9"></path><path d="M10 21h4"></path></svg>
+          <span class="notification-dot"></span>
+        </button>
+        <button class="brief-button" id="briefButton" type="button">
+          <span>GENERATE BRIEF</span>
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m9 18 6-6-6-6"></path></svg>
+        </button>
+      </div>
+    </header>
+
+    <nav class="primary-nav" aria-label="Primary navigation">
+      <button class="nav-item active" data-view="overview" type="button">OVERVIEW</button>
+      <button class="nav-item" data-view="conflict" type="button">CONFLICT</button>
+      <button class="nav-item" data-view="markets" type="button">MARKETS &amp; CREDIT</button>
+      <button class="nav-item" data-view="supply" type="button">SUPPLY CHAIN</button>
+      <button class="nav-item" data-view="news" type="button">INTELLIGENCE FEED</button>
+      <span class="nav-underline" aria-hidden="true"></span>
+    </nav>
+
+    <main>
+      <section class="view active" id="overviewView" data-view-panel="overview">
+        <div class="page-heading">
+          <div>
+            <p class="eyebrow">GLOBAL OVERVIEW / <span id="reportDate">06 JUN 2026</span></p>
+            <h1>Monitor the situation.</h1>
+            <p class="heading-note">A single view across geopolitical, sovereign, market and supply-chain risk.</p>
+          </div>
+          <div class="risk-legend" aria-label="Risk legend">
+            <span><i class="legend-dot critical"></i>CRITICAL</span>
+            <span><i class="legend-dot elevated"></i>ELEVATED</span>
+            <span><i class="legend-dot watch"></i>WATCH</span>
+          </div>
+        </div>
+
+        <div class="metric-ribbon" aria-label="Top risk metrics">
+          <article class="metric-card">
+            <div class="metric-head">
+              <span>GLOBAL RISK INDEX</span>
+              <span class="trend up">+2.4</span>
+            </div>
+            <div class="metric-body">
+              <strong>68<span>/100</span></strong>
+              <div class="mini-bars" aria-hidden="true">
+                <i style="height:36%"></i><i style="height:44%"></i><i style="height:51%"></i><i style="height:48%"></i><i style="height:63%"></i><i style="height:70%"></i><i class="hot" style="height:78%"></i>
+              </div>
+            </div>
+            <p>HIGH · 30-DAY TREND</p>
+          </article>
+          <article class="metric-card">
+            <div class="metric-head">
+              <span>ACTIVE CONFLICTS</span>
+              <span class="trend flat">+0</span>
+            </div>
+            <div class="metric-body">
+              <strong>31</strong>
+              <div class="ring-meter" style="--value: 72"><span>8</span></div>
+            </div>
+            <p>8 HIGH-INTENSITY THEATERS</p>
+          </article>
+          <article class="metric-card">
+            <div class="metric-head">
+              <span>SOVEREIGN STRESS</span>
+              <span class="trend up">+5.1%</span>
+            </div>
+            <div class="metric-body">
+              <strong>14</strong>
+              <div class="stacked-flags" aria-hidden="true"><span>GH</span><span>AR</span><span>PK</span><span>EG</span></div>
+            </div>
+            <p>COUNTRIES ON ELEVATED WATCH</p>
+          </article>
+          <article class="metric-card">
+            <div class="metric-head">
+              <span>TRADE DISRUPTION</span>
+              <span class="trend down">-1.8</span>
+            </div>
+            <div class="metric-body">
+              <strong>57<span>/100</span></strong>
+              <svg class="sparkline" viewBox="0 0 120 42" role="img" aria-label="Trade disruption trend">
+                <path class="spark-fill" d="M1 36L1 28L15 30L29 17L43 21L57 11L71 18L85 15L99 21L119 18L119 41L1 41Z"></path>
+                <path d="M1 28L15 30L29 17L43 21L57 11L71 18L85 15L99 21L119 18"></path>
+              </svg>
+            </div>
+            <p>MAJOR CHOKEPOINT PRESSURE</p>
+          </article>
+        </div>
+
+        <div class="overview-grid">
+          <section class="panel map-panel">
+            <div class="panel-head map-head">
+              <div>
+                <p class="panel-kicker">GEOSPATIAL INTELLIGENCE</p>
+                <h2>Global risk theater</h2>
+              </div>
+              <div class="map-controls" role="group" aria-label="Map layers">
+                <button class="map-layer active" data-layer="all" type="button">ALL</button>
+                <button class="map-layer" data-layer="conflict" type="button">CONFLICT</button>
+                <button class="map-layer" data-layer="political" type="button">POLITICAL</button>
+                <button class="map-layer" data-layer="supply" type="button">SUPPLY</button>
+              </div>
+            </div>
+            <div class="map-wrap">
+              <div id="riskMap" aria-label="Interactive global political risk map"></div>
+              <div class="map-fallback" id="mapFallback">
+                <div class="fallback-grid"></div>
+                <p>MAP TILES UNAVAILABLE<br><span>INCIDENT DATA REMAINS ACTIVE</span></p>
+              </div>
+              <div class="map-overlay top-left">
+                <span class="map-label">LIVE EVENT LAYER</span>
+                <strong id="visibleEventCount">12 incidents displayed</strong>
+              </div>
+              <div class="map-overlay bottom-left">
+                <button id="resetMap" type="button">RESET VIEW</button>
+                <span>SCROLL TO ZOOM</span>
+              </div>
+              <div class="incident-preview" id="incidentPreview" aria-live="polite">
+                <button class="preview-close" id="previewClose" type="button" aria-label="Close incident preview">×</button>
+                <p class="panel-kicker" id="previewType">CONFLICT</p>
+                <h3 id="previewTitle">Incident title</h3>
+                <p id="previewSummary">Incident details appear here.</p>
+                <div class="preview-meta">
+                  <span id="previewLocation">Location</span>
+                  <span id="previewTime">Updated recently</span>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          <aside class="panel signal-panel">
+            <div class="panel-head">
+              <div>
+                <p class="panel-kicker">PRIORITY QUEUE</p>
+                <h2>Signals to watch</h2>
+              </div>
+              <span class="count-badge">06</span>
+            </div>
+            <div class="signal-list" id="signalList"></div>
+            <button class="panel-link" data-navigate="news" type="button">VIEW ALL INTELLIGENCE <span>→</span></button>
+          </aside>
+        </div>
+
+        <div class="lower-grid">
+          <section class="panel news-panel">
+            <div class="panel-head">
+              <div>
+                <p class="panel-kicker">OPEN-SOURCE INTELLIGENCE</p>
+                <h2>Latest developments</h2>
+              </div>
+              <div class="feed-status">
+                <span class="live-pulse"></span>
+                <span id="feedStatus">CONNECTING</span>
+              </div>
+            </div>
+            <div class="news-list compact" id="overviewNewsList">
+              <div class="loading-row"><span></span><span></span><span></span></div>
+            </div>
+            <button class="panel-link" data-navigate="news" type="button">OPEN INTELLIGENCE FEED <span>→</span></button>
+          </section>
+
+          <section class="panel market-panel">
+            <div class="panel-head">
+              <div>
+                <p class="panel-kicker">MARKET TRANSMISSION</p>
+                <h2>FX stress board</h2>
+              </div>
+              <span class="data-source" id="fxStatus">EXCHANGE RATE API</span>
+            </div>
+            <div class="fx-table" id="fxTable"></div>
+            <button class="panel-link" data-navigate="markets" type="button">EXPLORE MARKETS &amp; CREDIT <span>→</span></button>
+          </section>
+
+          <section class="panel chokepoint-panel">
+            <div class="panel-head">
+              <div>
+                <p class="panel-kicker">SUPPLY CHAIN</p>
+                <h2>Chokepoint pressure</h2>
+              </div>
+              <span class="count-badge amber">04</span>
+            </div>
+            <div class="chokepoint-list" id="chokepointList"></div>
+            <button class="panel-link" data-navigate="supply" type="button">VIEW LOGISTICS MONITOR <span>→</span></button>
+          </section>
+        </div>
+      </section>
+
+      <section class="view detail-view" id="conflictView" data-view-panel="conflict">
+        <div class="detail-heading">
+          <div>
+            <p class="eyebrow">SECURITY / CONFLICT MONITOR</p>
+            <h1>Active theaters</h1>
+            <p>Conflict intensity, displacement pressure and frontline indicators.</p>
+          </div>
+          <div class="theater-stat"><strong>31</strong><span>ACTIVE<br>CONFLICTS</span></div>
+        </div>
+        <div class="detail-grid">
+          <section class="panel theater-panel">
+            <div class="panel-head"><h2>High-intensity theaters</h2><span class="data-source">ANALYST MODEL</span></div>
+            <div class="theater-list" id="theaterList"></div>
+          </section>
+          <section class="panel methodology-card">
+            <p class="panel-kicker">TRACKING METHOD</p>
+            <h2>How to read this view</h2>
+            <p>Intensity combines reported kinetic activity, territorial change, civilian impact and regional spillover. Scores are directional and should be cross-checked against primary sources.</p>
+            <div class="method-scale"><span>STABLE</span><span>ESCALATING</span></div>
+            <div class="scale-bar"></div>
+            <p class="source-note">Suggested integrations: ACLED, UCDP, UNHCR and ReliefWeb. Some require free registration or attribution.</p>
+          </section>
+        </div>
+      </section>
+
+      <section class="view detail-view" id="marketsView" data-view-panel="markets">
+        <div class="detail-heading">
+          <div>
+            <p class="eyebrow">FINANCIAL / SOVEREIGN RISK</p>
+            <h1>Markets &amp; credit</h1>
+            <p>Currency pressure, debt vulnerability and external financing signals.</p>
+          </div>
+          <div class="source-chip"><span class="live-pulse"></span> LIVE FX</div>
+        </div>
+        <div class="markets-grid">
+          <section class="panel wide-market-card">
+            <div class="panel-head"><h2>Currency monitor</h2><span id="fxUpdated">LATEST AVAILABLE</span></div>
+            <div class="full-fx-table" id="fullFxTable"></div>
+          </section>
+          <section class="panel credit-watch">
+            <div class="panel-head"><h2>Sovereign watchlist</h2><span class="count-badge amber">07</span></div>
+            <div id="creditWatchlist"></div>
+          </section>
+        </div>
+      </section>
+
+      <section class="view detail-view" id="supplyView" data-view-panel="supply">
+        <div class="detail-heading">
+          <div>
+            <p class="eyebrow">TRADE / LOGISTICS RISK</p>
+            <h1>Supply-chain monitor</h1>
+            <p>Maritime chokepoints, strategic commodities and route disruption.</p>
+          </div>
+          <div class="theater-stat amber-stat"><strong>57</strong><span>PRESSURE<br>INDEX</span></div>
+        </div>
+        <div class="supply-grid" id="supplyGrid"></div>
+      </section>
+
+      <section class="view detail-view" id="newsView" data-view-panel="news">
+        <div class="detail-heading">
+          <div>
+            <p class="eyebrow">OPEN-SOURCE / LIVE FEED</p>
+            <h1>Intelligence feed</h1>
+            <p>Recent global reporting filtered for political, security and economic risk.</p>
+          </div>
+          <div class="source-chip"><span class="live-pulse"></span> GDELT</div>
+        </div>
+        <div class="feed-toolbar">
+          <div class="feed-filters" role="group" aria-label="News filters">
+            <button class="feed-filter active" data-news-filter="all" type="button">ALL SIGNALS</button>
+            <button class="feed-filter" data-news-filter="conflict" type="button">CONFLICT</button>
+            <button class="feed-filter" data-news-filter="political" type="button">POLITICAL</button>
+            <button class="feed-filter" data-news-filter="economic" type="button">ECONOMIC</button>
+          </div>
+          <span id="feedTimestamp">UPDATING</span>
+        </div>
+        <section class="panel full-news-panel">
+          <div class="news-list" id="fullNewsList"></div>
+        </section>
+      </section>
+    </main>
+
+    <footer>
+      <div>
+        <strong>ATLAS/WATCH</strong>
+        <span>Open-source situational awareness for informed decision-making.</span>
+      </div>
+      <p>Risk scores are indicative, not investment or security advice. Verify critical decisions against primary sources.</p>
+    </footer>
+  </div>
+
+  <div class="search-overlay" id="searchOverlay" aria-hidden="true">
+    <div class="search-dialog" role="dialog" aria-modal="true" aria-labelledby="searchTitle">
+      <div class="search-top">
+        <span class="search-key">⌘ K</span>
+        <button id="searchClose" type="button" aria-label="Close search">×</button>
+      </div>
+      <h2 id="searchTitle">Search the situation</h2>
+      <div class="search-input-wrap">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"></circle><path d="m16.5 16.5 4 4"></path></svg>
+        <input id="globalSearch" type="search" placeholder="Country, conflict, currency or chokepoint…" autocomplete="off">
+      </div>
+      <div class="search-results" id="searchResults">
+        <p class="search-hint">TRY: UKRAINE, RED SEA, ARGENTINA, JPY</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
