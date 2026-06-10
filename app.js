@@ -41,14 +41,62 @@ const theaters = [
 ];
 
 const sovereigns = [
-  { country: "Argentina", grade: "CCC", note: "Reserve adequacy and reform execution", signals: ["FX VOLATILITY", "INFLATION", "IMF PROGRAM"] },
-  { country: "Pakistan", grade: "CCC+", note: "External financing and import cover", signals: ["ROLLOVER RISK", "IMF PROGRAM", "POLITICAL"] },
-  { country: "Egypt", grade: "B-", note: "FX flexibility and debt-service burden", signals: ["DEVALUATION", "EXTERNAL DEBT", "GULF SUPPORT"] },
-  { country: "Ghana", grade: "CCC+", note: "Restructuring implementation", signals: ["DEBT WORKOUT", "FISCAL", "FX"] },
-  { country: "Tunisia", grade: "CCC-", note: "Financing gap and policy constraints", signals: ["FUNDING GAP", "REFORM", "SOCIAL RISK"] },
-  { country: "Ecuador", grade: "B-", note: "Security shock and fiscal consolidation", signals: ["SECURITY", "FISCAL", "OIL"] },
-  { country: "Nigeria", grade: "B-", note: "Reform pass-through and naira pressure", signals: ["FX", "INFLATION", "OIL OUTPUT"] }
+  {
+    country: "Argentina", iso: "AR", region: "LATIN AMERICA", grade: "CCC", outlook: "Improving", score: 88,
+    note: "Reserve rebuilding and reform execution remain central to market access.",
+    debtGdp: "92%", fxDebt: "68%", reserves: "2.1 mo", spread: "1,180 bp", refinancing: "Severe",
+    catalyst: "Program review and reserve targets", window: "Q3", signals: ["FX VOLATILITY", "INFLATION", "IMF PROGRAM"]
+  },
+  {
+    country: "Tunisia", iso: "TN", region: "NORTH AFRICA", grade: "CCC-", outlook: "Negative", score: 84,
+    note: "A narrow financing base and policy constraints keep the funding gap elevated.",
+    debtGdp: "81%", fxDebt: "57%", reserves: "3.4 mo", spread: "1,040 bp", refinancing: "Severe",
+    catalyst: "External financing package", window: "H2", signals: ["FUNDING GAP", "REFORM", "SOCIAL RISK"]
+  },
+  {
+    country: "Pakistan", iso: "PK", region: "SOUTH ASIA", grade: "CCC+", outlook: "Stable", score: 79,
+    note: "External refinancing needs remain large relative to reserve buffers.",
+    debtGdp: "76%", fxDebt: "38%", reserves: "2.5 mo", spread: "860 bp", refinancing: "High",
+    catalyst: "Multilateral review and rollovers", window: "Q3", signals: ["ROLLOVER RISK", "IMF PROGRAM", "POLITICAL"]
+  },
+  {
+    country: "Ghana", iso: "GH", region: "WEST AFRICA", grade: "CCC+", outlook: "Improving", score: 76,
+    note: "Debt-workout implementation and fiscal delivery drive the recovery path.",
+    debtGdp: "84%", fxDebt: "61%", reserves: "2.8 mo", spread: "740 bp", refinancing: "High",
+    catalyst: "Restructuring milestone", window: "Q4", signals: ["DEBT WORKOUT", "FISCAL", "FX"]
+  },
+  {
+    country: "Egypt", iso: "EG", region: "NORTH AFRICA", grade: "B-", outlook: "Negative", score: 72,
+    note: "Debt-service costs and exchange-rate flexibility test the adjustment program.",
+    debtGdp: "91%", fxDebt: "31%", reserves: "4.0 mo", spread: "610 bp", refinancing: "High",
+    catalyst: "Privatization and program review", window: "Q3", signals: ["DEVALUATION", "EXTERNAL DEBT", "GULF SUPPORT"]
+  },
+  {
+    country: "Nigeria", iso: "NG", region: "WEST AFRICA", grade: "B-", outlook: "Stable", score: 69,
+    note: "Reform pass-through, oil receipts and naira liquidity shape credit capacity.",
+    debtGdp: "49%", fxDebt: "42%", reserves: "5.1 mo", spread: "520 bp", refinancing: "Elevated",
+    catalyst: "Budget and oil-output delivery", window: "Q4", signals: ["FX", "INFLATION", "OIL OUTPUT"]
+  },
+  {
+    country: "Ecuador", iso: "EC", region: "LATIN AMERICA", grade: "B-", outlook: "Stable", score: 61,
+    note: "Security expenditure and fiscal consolidation compete for limited capacity.",
+    debtGdp: "58%", fxDebt: "91%", reserves: "4.6 mo", spread: "470 bp", refinancing: "Elevated",
+    catalyst: "Fiscal package and oil receipts", window: "H2", signals: ["SECURITY", "FISCAL", "OIL"]
+  }
 ];
+
+const fxProfiles = {
+  EUR: { name: "EURO", region: "EURO AREA", group: "major", regime: "FREE FLOAT", day: 0.18, month: 1.3, vol: 6.8, stress: 28, driver: "RATE DIFFERENTIAL" },
+  GBP: { name: "STERLING", region: "UNITED KINGDOM", group: "major", regime: "FREE FLOAT", day: -0.12, month: -0.7, vol: 7.4, stress: 31, driver: "GROWTH / RATES" },
+  JPY: { name: "YEN", region: "JAPAN", group: "major", regime: "MANAGED FLOAT", day: 0.46, month: 3.8, vol: 10.9, stress: 63, driver: "YIELD GAP" },
+  CHF: { name: "FRANC", region: "SWITZERLAND", group: "major", regime: "FREE FLOAT", day: -0.08, month: -1.1, vol: 6.2, stress: 22, driver: "SAFE HAVEN" },
+  CNY: { name: "RENMINBI", region: "CHINA", group: "emerging", regime: "MANAGED", day: 0.07, month: 0.9, vol: 3.1, stress: 48, driver: "POLICY FIX" },
+  TRY: { name: "LIRA", region: "TURKIYE", group: "emerging", regime: "MANAGED FLOAT", day: 0.71, month: 5.9, vol: 18.7, stress: 86, driver: "INFLATION" },
+  BRL: { name: "REAL", region: "BRAZIL", group: "emerging", regime: "FREE FLOAT", day: -0.34, month: 2.1, vol: 14.2, stress: 57, driver: "FISCAL / CARRY" },
+  ZAR: { name: "RAND", region: "SOUTH AFRICA", group: "emerging", regime: "FREE FLOAT", day: 0.23, month: 3.4, vol: 15.6, stress: 68, driver: "POWER / FISCAL" },
+  INR: { name: "RUPEE", region: "INDIA", group: "emerging", regime: "MANAGED FLOAT", day: 0.11, month: 1.2, vol: 4.4, stress: 39, driver: "OIL IMPORTS" },
+  MXN: { name: "PESO", region: "MEXICO", group: "emerging", regime: "FREE FLOAT", day: -0.42, month: -2.6, vol: 13.8, stress: 52, driver: "CARRY / TRADE" }
+};
 
 const supplyRisks = [
   { name: "Bab el-Mandeb", region: "RED SEA", score: 88, status: "SEVERE", summary: "Security incidents drive Cape of Good Hope diversions, adding time, fuel and insurance cost." },
@@ -77,6 +125,9 @@ let map;
 let markerLayer;
 let allNews = fallbackNews;
 let currentNewsFilter = "all";
+let currentFxFilter = "all";
+let currentCreditFilter = "all";
+let latestFxData = fallbackFx;
 
 function escapeHtml(value = "") {
   return value.replace(/[&<>"']/g, char => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#039;" }[char]));
@@ -133,11 +184,60 @@ function renderTheaters() {
 }
 
 function renderSovereigns() {
-  document.querySelector("#creditWatchlist").innerHTML = sovereigns.map(item => `
-    <article class="credit-item">
-      <div><h3>${item.country}</h3><p>${item.note}</p></div>
-      <span class="credit-grade">${item.grade}</span>
-      <div class="credit-signals">${item.signals.map(signal => `<span>${signal}</span>`).join("")}</div>
+  const visible = sovereigns.filter(item => {
+    const tier = creditTier(item.score);
+    return currentCreditFilter === "all" || tier === currentCreditFilter;
+  });
+  document.querySelector("#creditCount").textContent = String(visible.length).padStart(2, "0");
+  document.querySelector("#creditWatchlist").innerHTML = visible.length ? visible.map(item => {
+    const tier = creditTier(item.score);
+    return `
+      <article class="credit-item ${tier}">
+        <button class="credit-summary" type="button" aria-expanded="false">
+          <span class="credit-country"><i>${item.iso}</i><span><strong>${item.country}</strong><small>${item.region}</small></span></span>
+          <span class="credit-model"><strong>${item.score}</strong><small>${item.grade} MODEL</small></span>
+          <span class="credit-outlook ${item.outlook.toLowerCase()}">${item.outlook}</span>
+          <span class="credit-spread"><strong>${item.spread}</strong><small>INDICATIVE</small></span>
+          <span class="credit-reserves"><strong>${item.reserves}</strong><small>IMPORT COVER</small></span>
+          <span class="credit-expand" aria-hidden="true">+</span>
+        </button>
+        <div class="credit-detail">
+          <div class="credit-narrative">
+            <p>${item.note}</p>
+            <div class="credit-signals">${item.signals.map(signal => `<span>${signal}</span>`).join("")}</div>
+          </div>
+          <div class="credit-metric"><span>DEBT / GDP</span><strong>${item.debtGdp}</strong></div>
+          <div class="credit-metric"><span>FX DEBT SHARE</span><strong>${item.fxDebt}</strong></div>
+          <div class="credit-metric"><span>REFINANCING</span><strong>${item.refinancing}</strong></div>
+          <div class="credit-catalyst"><span>NEXT CATALYST · ${item.window}</span><strong>${item.catalyst}</strong></div>
+        </div>
+      </article>
+    `;
+  }).join("") : `<p class="empty-market-state">NO SOVEREIGNS IN THIS RISK BAND</p>`;
+  bindCreditRows();
+}
+
+function creditTier(score) {
+  if (score >= 80) return "critical";
+  if (score >= 70) return "high";
+  return "monitor";
+}
+
+function bindCreditRows() {
+  document.querySelectorAll(".credit-summary").forEach(button => button.addEventListener("click", () => {
+    const item = button.closest(".credit-item");
+    const expanded = item.classList.toggle("expanded");
+    button.setAttribute("aria-expanded", String(expanded));
+    item.querySelector(".credit-expand").textContent = expanded ? "−" : "+";
+  }));
+}
+
+function renderCreditCatalysts() {
+  document.querySelector("#creditCatalysts").innerHTML = sovereigns.slice(0, 5).map(item => `
+    <article class="catalyst-row">
+      <span class="catalyst-date">${item.window}</span>
+      <div><strong>${item.country}</strong><p>${item.catalyst}</p></div>
+      <span class="catalyst-score ${creditTier(item.score)}">${item.score}</span>
     </article>
   `).join("");
 }
@@ -154,28 +254,98 @@ function renderSupply() {
   `).join("");
 }
 
-function fxChange(code) {
-  const seeded = { EUR: .18, GBP: -.12, JPY: -.46, CHF: .08, CNY: -.07, TRY: -.71, BRL: .34, ZAR: -.23, INR: -.11, MXN: .42 };
-  return seeded[code] || 0;
+function formatFxRate(code, rate) {
+  return Number(rate).toFixed(code === "JPY" || code === "INR" ? 2 : 4);
 }
 
-function fxRow(code, rate) {
-  const names = { EUR: "EURO", GBP: "STERLING", JPY: "YEN", CHF: "FRANC", CNY: "RENMINBI", TRY: "LIRA", BRL: "REAL", ZAR: "RAND", INR: "RUPEE", MXN: "PESO" };
-  const change = fxChange(code);
+function fxMove(value, period = "") {
+  const direction = value > 0 ? "negative" : value < 0 ? "positive" : "flat";
+  return `<span class="fx-change ${direction} ${period}">${value > 0 ? "+" : ""}${value.toFixed(2)}%</span>`;
+}
+
+function compactFxRow(code, rate) {
+  const profile = fxProfiles[code];
   return `
     <div class="fx-row">
-      <div class="fx-code"><strong>USD/${code}</strong><span>${names[code]}</span></div>
-      <span class="fx-rate">${Number(rate).toFixed(code === "JPY" || code === "INR" ? 2 : 4)}</span>
-      <span class="fx-change ${change >= 0 ? "positive" : "negative"}">${change >= 0 ? "+" : ""}${change.toFixed(2)}%</span>
+      <div class="fx-code"><strong>USD/${code}</strong><span>${profile.name}</span></div>
+      <span class="fx-rate">${formatFxRate(code, rate)}</span>
+      ${fxMove(profile.day)}
     </div>
   `;
 }
 
+function fxSparkline(code) {
+  const profile = fxProfiles[code];
+  const base = 14 + profile.stress / 12;
+  const values = [base, base - profile.day * 1.6, base + profile.month * .18, base - profile.day, base + profile.month * .28, base + profile.day * 1.2, base + profile.month * .35];
+  const points = values.map((value, index) => `${index * 12},${Math.max(3, Math.min(25, 28 - value))}`).join(" ");
+  return `<svg class="fx-spark" viewBox="0 0 72 28" aria-hidden="true"><polyline points="${points}"></polyline></svg>`;
+}
+
+function fullFxRow(code, rate) {
+  const profile = fxProfiles[code];
+  const tier = profile.stress >= 70 ? "critical" : profile.stress >= 55 ? "high" : "monitor";
+  return `
+    <article class="fx-detail-row ${tier}">
+      <div class="fx-pair">
+        <span><strong>USD/${code}</strong><small>${profile.name} · ${profile.region}</small></span>
+        <em>${profile.regime}</em>
+      </div>
+      <strong class="fx-spot">${formatFxRate(code, rate)}</strong>
+      ${fxMove(profile.day, "fx-day")}
+      ${fxMove(profile.month, "fx-month")}
+      <span class="fx-vol">${profile.vol.toFixed(1)}%</span>
+      <div class="fx-stress-cell">
+        ${fxSparkline(code)}
+        <span class="fx-stress-score ${tier}">${profile.stress}</span>
+      </div>
+    </article>
+  `;
+}
+
+function renderMarketSummary() {
+  const highStress = Object.values(fxProfiles).filter(item => item.stress >= 65).length;
+  const medianCredit = [...sovereigns].sort((a, b) => a.score - b.score)[Math.floor(sovereigns.length / 2)].score;
+  const negativeOutlooks = sovereigns.filter(item => item.outlook === "Negative").length;
+  const averageStress = Math.round(Object.values(fxProfiles).reduce((sum, item) => sum + item.stress, 0) / Object.keys(fxProfiles).length);
+  const cards = [
+    { label: "FX STRESS INDEX", value: averageStress, suffix: "/100", note: "CROSS-CURRENCY COMPOSITE", tone: averageStress >= 60 ? "amber" : "blue" },
+    { label: "PRESSURE SIGNALS", value: highStress, suffix: "/10", note: "CURRENCIES AT 65+ STRESS", tone: "red" },
+    { label: "MEDIAN CREDIT RISK", value: medianCredit, suffix: "/100", note: "ILLUSTRATIVE SOVEREIGN MODEL", tone: "amber" },
+    { label: "NEGATIVE OUTLOOKS", value: negativeOutlooks, suffix: "/7", note: "DIRECTIONAL WATCHLIST", tone: "red" }
+  ];
+  document.querySelector("#marketSummary").innerHTML = cards.map(card => `
+    <article class="market-summary-card ${card.tone}">
+      <span>${card.label}</span>
+      <strong>${card.value}<small>${card.suffix}</small></strong>
+      <p>${card.note}</p>
+    </article>
+  `).join("");
+}
+
+function renderFxVulnerability() {
+  const ranked = Object.entries(fxProfiles).sort(([, a], [, b]) => b.stress - a.stress).slice(0, 6);
+  document.querySelector("#fxVulnerabilityList").innerHTML = ranked.map(([code, profile], index) => `
+    <article class="fx-pressure-row">
+      <span class="pressure-rank">${String(index + 1).padStart(2, "0")}</span>
+      <div>
+        <div class="pressure-title"><strong>${code}</strong><span>${profile.driver}</span><em>${profile.stress}</em></div>
+        <div class="pressure-track"><span style="width:${profile.stress}%"></span></div>
+      </div>
+    </article>
+  `).join("");
+}
+
 function renderFx(data) {
   const priority = ["EUR", "JPY", "GBP", "CNY", "TRY"];
-  const full = ["EUR", "GBP", "JPY", "CHF", "CNY", "TRY", "BRL", "ZAR", "INR", "MXN"];
-  document.querySelector("#fxTable").innerHTML = priority.map(code => fxRow(code, data.rates[code])).join("");
-  document.querySelector("#fullFxTable").innerHTML = full.map(code => fxRow(code, data.rates[code])).join("");
+  latestFxData = data;
+  const full = ["EUR", "GBP", "JPY", "CHF", "CNY", "TRY", "BRL", "ZAR", "INR", "MXN"].filter(code => {
+    const profile = fxProfiles[code];
+    if (currentFxFilter === "stressed") return profile.stress >= 65;
+    return currentFxFilter === "all" || profile.group === currentFxFilter;
+  });
+  document.querySelector("#fxTable").innerHTML = priority.map(code => compactFxRow(code, data.rates[code])).join("");
+  document.querySelector("#fullFxTable").innerHTML = full.length ? full.map(code => fullFxRow(code, data.rates[code])).join("") : `<p class="empty-market-state">NO CURRENCIES IN THIS FILTER</p>`;
   const isFallback = data.date === "fallback";
   document.querySelector("#fxStatus").textContent = isFallback ? "DEMO RATES" : `LIVE · ${data.date}`;
   document.querySelector("#fxUpdated").textContent = isFallback ? "FALLBACK DATA" : `UPDATED ${data.date}`;
@@ -368,6 +538,18 @@ function bindEvents() {
     currentNewsFilter = button.dataset.newsFilter;
     renderNews();
   }));
+  document.querySelectorAll("[data-fx-filter]").forEach(button => button.addEventListener("click", () => {
+    document.querySelectorAll("[data-fx-filter]").forEach(item => item.classList.remove("active"));
+    button.classList.add("active");
+    currentFxFilter = button.dataset.fxFilter;
+    renderFx(latestFxData);
+  }));
+  document.querySelectorAll("[data-credit-filter]").forEach(button => button.addEventListener("click", () => {
+    document.querySelectorAll("[data-credit-filter]").forEach(item => item.classList.remove("active"));
+    button.classList.add("active");
+    currentCreditFilter = button.dataset.creditFilter;
+    renderSovereigns();
+  }));
   document.querySelector("#previewClose").addEventListener("click", () => document.querySelector("#incidentPreview").classList.remove("visible"));
   document.querySelector("#resetMap").addEventListener("click", () => map?.setView([24, 12], 2));
   document.querySelector("#searchToggle").addEventListener("click", openSearch);
@@ -403,7 +585,10 @@ function init() {
   renderSignals();
   renderChokepoints();
   renderTheaters();
+  renderMarketSummary();
   renderSovereigns();
+  renderCreditCatalysts();
+  renderFxVulnerability();
   renderSupply();
   renderFx(fallbackFx);
   renderNews();

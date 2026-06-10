@@ -251,18 +251,95 @@
           <div>
             <p class="eyebrow">FINANCIAL / SOVEREIGN RISK</p>
             <h1>Markets &amp; credit</h1>
-            <p>Currency pressure, debt vulnerability and external financing signals.</p>
+            <p>Currency pressure, sovereign balance-sheet vulnerability and external financing signals.</p>
           </div>
-          <div class="source-chip"><span class="live-pulse"></span> LIVE FX</div>
+          <div class="market-source-stack">
+            <div class="source-chip"><span class="live-pulse"></span> LIVE FX</div>
+            <span>MODEL METRICS ARE ILLUSTRATIVE</span>
+          </div>
         </div>
+        <div class="market-summary" id="marketSummary" aria-label="Markets and credit summary"></div>
         <div class="markets-grid">
           <section class="panel wide-market-card">
-            <div class="panel-head"><h2>Currency monitor</h2><span id="fxUpdated">LATEST AVAILABLE</span></div>
+            <div class="panel-head market-panel-head">
+              <div>
+                <p class="panel-kicker">CROSS-ASSET TRANSMISSION</p>
+                <h2>Currency exchange monitor</h2>
+              </div>
+              <span id="fxUpdated">LATEST AVAILABLE</span>
+            </div>
+            <div class="market-toolbar">
+              <div class="market-filters" role="group" aria-label="Currency filters">
+                <button class="market-filter active" data-fx-filter="all" type="button">ALL</button>
+                <button class="market-filter" data-fx-filter="major" type="button">MAJORS</button>
+                <button class="market-filter" data-fx-filter="emerging" type="button">EMERGING</button>
+                <button class="market-filter" data-fx-filter="stressed" type="button">HIGH STRESS</button>
+              </div>
+              <span>USD BASE · POSITIVE MOVE = LOCAL FX WEAKER</span>
+            </div>
+            <div class="fx-table-heading" aria-hidden="true">
+              <span>PAIR / REGIME</span><span>SPOT</span><span>1D</span><span>30D</span><span>30D VOL</span><span>STRESS</span>
+            </div>
             <div class="full-fx-table" id="fullFxTable"></div>
           </section>
+
+          <aside class="panel fx-vulnerability-panel">
+            <div class="panel-head">
+              <div>
+                <p class="panel-kicker">VULNERABILITY MODEL</p>
+                <h2>FX pressure ranking</h2>
+              </div>
+              <span>0–100</span>
+            </div>
+            <div id="fxVulnerabilityList"></div>
+            <p class="market-footnote">Composite of momentum, realized volatility, policy regime, inflation sensitivity and external funding exposure.</p>
+          </aside>
+
           <section class="panel credit-watch">
-            <div class="panel-head"><h2>Sovereign watchlist</h2><span class="count-badge amber">07</span></div>
+            <div class="panel-head market-panel-head">
+              <div>
+                <p class="panel-kicker">COUNTRY CREDIT RISK</p>
+                <h2>Sovereign risk matrix</h2>
+              </div>
+              <span class="count-badge amber" id="creditCount">07</span>
+            </div>
+            <div class="market-toolbar credit-toolbar">
+              <div class="market-filters" role="group" aria-label="Sovereign risk filters">
+                <button class="market-filter active" data-credit-filter="all" type="button">ALL</button>
+                <button class="market-filter" data-credit-filter="critical" type="button">CRITICAL</button>
+                <button class="market-filter" data-credit-filter="high" type="button">HIGH</button>
+                <button class="market-filter" data-credit-filter="monitor" type="button">MONITOR</button>
+              </div>
+              <span>SELECT A COUNTRY FOR BALANCE-SHEET DETAIL</span>
+            </div>
+            <div class="credit-table-heading" aria-hidden="true">
+              <span>COUNTRY / REGION</span><span>MODEL</span><span>OUTLOOK</span><span>SPREAD</span><span>RESERVES</span><span></span>
+            </div>
             <div id="creditWatchlist"></div>
+          </section>
+
+          <aside class="panel credit-catalyst-panel">
+            <div class="panel-head">
+              <div>
+                <p class="panel-kicker">FORWARD WATCH</p>
+                <h2>Refinancing catalysts</h2>
+              </div>
+              <span>12M WINDOW</span>
+            </div>
+            <div id="creditCatalysts"></div>
+            <div class="credit-legend">
+              <span><i class="risk-swatch critical"></i>CRITICAL 80+</span>
+              <span><i class="risk-swatch high"></i>HIGH 70–79</span>
+              <span><i class="risk-swatch monitor"></i>MONITOR &lt;70</span>
+            </div>
+          </aside>
+
+          <section class="panel market-methodology">
+            <div>
+              <p class="panel-kicker">TEMPLATE DATA GUIDE</p>
+              <h2>Connect the model to primary financial data</h2>
+            </div>
+            <p>Replace illustrative credit metrics with rating-agency actions, IMF and World Bank debt data, central-bank reserves, sovereign curves and CDS pricing. FX spot rates use the public exchange-rate feed when available; momentum, volatility and stress values remain seeded template data.</p>
           </section>
         </div>
       </section>
